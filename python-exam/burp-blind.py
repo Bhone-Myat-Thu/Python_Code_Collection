@@ -5,6 +5,7 @@ import time
 from colorama import Fore,Style
 
 
+
 url = input("Enter the URL: ") 
 # "https://0a4d001d03c8a749c025ea7800d700a7.web-security-academy.net"
 

